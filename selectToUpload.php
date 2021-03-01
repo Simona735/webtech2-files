@@ -10,12 +10,11 @@
 
     <title>Upload</title>
 </head>
-<body>
+<body class="bg-light">
 
 <main>
     <div class="py-5 text-center">
         <h2>Upload files</h2>
-        <p class="lead">Nižšie môžete nahrať akýkoľvek súbor.</p>
         <button type="button" onclick="window.location.href='index.php';" class="btn btn-secondary my-2">Zobraziť súbory</button>
     </div>
 </main>

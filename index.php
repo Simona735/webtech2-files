@@ -16,8 +16,7 @@
 <div class="container">
     <main>
         <div class="py-5 text-center">
-            <h2>View & upload files</h2>
-            <p class="lead">Tabuľka súborov</p>
+            <h2>View files</h2>
             <button type="button" onclick="window.location.href='selectToUpload.php';" class="btn btn-primary my-2">
                 <i class="bi bi-file-earmark-plus"></i>
                 Nahrať súbor
@@ -38,21 +37,17 @@
         if(isset($_GET["currentPath"])){
             $currentpath = $_GET["currentPath"].'/';
         }else{
-            $currentpath="../files/";
+            $currentpath="/home/xrichterova/public_html/files/";  // "../files/.."
         }
         $a = array_diff(scandir($currentpath), array('.'));
         foreach ($a as $file){
             $path = $currentpath . $file;
             if (!strcmp($file, '..')){
-                if (strcmp($path, "../files/..")){ //subdirectories
-                    $string = substr($path, 0, -3);
-                    $right_length = (strlen(strrchr($string, '/')) - 1);
-                    $left_length = (strlen($string) - $right_length - 1);
-                    $parentPath = substr($string, 0, ($left_length));
-
+                if (strcmp($path, "/home/xrichterova/public_html/files/..")){ //subdirectories
+                    $parentPath = realpath($path);
                     echo "<tr>
-                    <td><i class='bi bi-folder-symlink'></i>&nbsp;
-                        <a href='index.php?currentPath={$parentPath}'>parent folder</a>
+                    <td><i class='bi bi-arrow-90deg-left'></i>&nbsp;
+                        <a href='index.php?currentPath={$parentPath}'>Parent directory</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -61,11 +56,9 @@
             }
             else if (is_file($path)){
                 echo "<tr>
-                    <td>
-                        <a href='$path'>{$file}</a>
-                    </td>
+                    <td>{$file}</td>
                     <td>" . (filesize($path)) >> 10 . " kB" . "</td>
-                    <td>" . date("F d Y H:i:s", filemtime($path)) . "</td>
+                    <td>" . date("m.d.Y H:i:s", filemtime($path)) . "</td>
                    </tr>";
             }else{
 

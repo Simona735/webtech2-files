@@ -39,7 +39,7 @@ function ekUpload(){
                     .then(data => { console.log(data); })
 
                 isGood = 0;
-                output("");
+                output("Successfully uploaded ✓");
             }else{
                 output("Please select a file");
                 document.getElementById('file-drag').style.border = "3px solid crimson";
