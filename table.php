@@ -1,8 +1,8 @@
 <?php
 $BASE = "../files/";
 
-$currentpath = "";
-
+$currentpath = $_POST["currentPath"];
+var_dump($currentpath);
 $a = array_diff(scandir($BASE . $currentpath), array('.'));
 foreach ($a as $file){
     $path = $BASE . $currentpath . $file;

@@ -17,8 +17,11 @@
     <main>
         <div class="py-5 text-center">
             <h2>View & upload files</h2>
-            <p class="lead">Nižšie môžete nahrať akýkoľvek súbor.</p>
-            <button type="button" onclick="window.location.href='selectToUpload.php';" class="btn btn-primary my-2">Nahrať súbor</button>
+            <p class="lead">Tabuľka súborov</p>
+            <button type="button" onclick="window.location.href='selectToUpload.php';" class="btn btn-primary my-2">
+                <i class="bi bi-file-earmark-plus"></i>
+                Nahrať súbor
+            </button>
         </div>
     </main>
 
@@ -32,18 +35,24 @@
         </thead>
         <tbody id="tableBody">
         <?php
-        $BASE = "../files/";
-
-        $currentpath = "";
-
-        $a = array_diff(scandir($BASE . $currentpath), array('.'));
+        if(isset($_GET["currentPath"])){
+            $currentpath = $_GET["currentPath"].'/';
+        }else{
+            $currentpath="../files/";
+        }
+        $a = array_diff(scandir($currentpath), array('.'));
         foreach ($a as $file){
-            $path = $BASE . $currentpath . $file;
+            $path = $currentpath . $file;
             if (!strcmp($file, '..')){
-                if (strcmp($path, $BASE . "..")){
+                if (strcmp($path, "../files/..")){ //subdirectories
+                    $string = substr($path, 0, -3);
+                    $right_length = (strlen(strrchr($string, '/')) - 1);
+                    $left_length = (strlen($string) - $right_length - 1);
+                    $parentPath = substr($string, 0, ($left_length));
+
                     echo "<tr>
                     <td><i class='bi bi-folder-symlink'></i>&nbsp;
-                        <a href='$path'>parent folder</a>
+                        <a href='index.php?currentPath={$parentPath}'>parent folder</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -59,12 +68,14 @@
                     <td>" . date("F d Y H:i:s", filemtime($path)) . "</td>
                    </tr>";
             }else{
+
                 echo "<tr>
-                    <td><i class='bi bi-folder'></i>&nbsp;{$file}</td>
+                    <td><i class='bi bi-folder'></i>&nbsp;
+                        <a href='index.php?currentPath={$path}'>{$file}</a></td>
                     <td></td>
                     <td></td>
                    </tr>";
-            }//<a href="?path=../files/filee">filee</a> for one dir
+            }
         }
         ?>
         </tbody>
@@ -74,8 +85,8 @@
         <p class="mb-1">&copy;2021 WEBTECH2 - Richterová </p>
     </footer>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.js"  crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js" crossorigin="anonymous"></script>
+<!--<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>-->
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
