@@ -34,8 +34,8 @@
         </thead>
         <tbody id="tableBody">
         <?php
-        if(isset($_GET["currentPath"])){
-            $currentpath = $_GET["currentPath"].'/';
+        if(isset($_GET["dir"])){
+            $currentpath = $_GET["dir"].'/';
         }else{
             $currentpath="/home/xrichterova/public_html/files/";  // "../files/.."
         }
@@ -47,7 +47,7 @@
                     $parentPath = realpath($path);
                     echo "<tr>
                     <td><i class='bi bi-arrow-90deg-left'></i>&nbsp;
-                        <a href='index.php?currentPath={$parentPath}'>Parent directory</a>
+                        <a href='index.php?dir={$parentPath}'>Parent directory</a>
                     </td>
                     <td></td>
                     <td></td>
@@ -64,7 +64,7 @@
 
                 echo "<tr>
                     <td><i class='bi bi-folder'></i>&nbsp;
-                        <a href='index.php?currentPath={$path}'>{$file}</a></td>
+                        <a href='index.php?dir={$path}'>{$file}</a></td>
                     <td></td>
                     <td></td>
                    </tr>";
